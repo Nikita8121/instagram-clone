@@ -14,7 +14,7 @@ export class Link {
 @Schema()
 export class Account {
   @Prop({ required: true })
-  name: string;
+  fullName: string;
 
   @Prop({ required: true, unique: true })
   username: string;
@@ -22,8 +22,11 @@ export class Account {
   @Prop({ required: true, unique: true })
   email: string;
 
+  @Prop({ required: true })
+  passwordHash: string;
+
   @Prop()
-  avatar: string;
+  avatar?: string;
 
   @Prop()
   description?: string;
