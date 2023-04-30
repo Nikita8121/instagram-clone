@@ -26,6 +26,10 @@ export class AccountRepository {
     return this.accountModel.findOne({ email }).exec();
   }
 
+  async findByUsername(username: string): Promise<Account> {
+    return this.accountModel.findOne({ username }).exec();
+  }
+
   async delete(id: string): Promise<void> {
     await this.accountModel.findByIdAndDelete(id).exec();
   }

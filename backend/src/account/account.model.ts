@@ -23,7 +23,7 @@ export class Account {
   email: string;
 
   @Prop({ required: true })
-  passwordHash: string;
+  password: string;
 
   @Prop()
   avatar?: string;
