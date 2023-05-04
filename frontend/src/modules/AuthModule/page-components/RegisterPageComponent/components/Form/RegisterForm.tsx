@@ -7,31 +7,19 @@ import { IChakraStylesProp } from "@/shared/types/interfaces/chakra-styles";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { RegisterSchema, registerSchema } from "@/modules/AuthModule/zod-schemas/register.schema";
 
-const validationSchema = z.object({
-  fullName: z.string().min(1, { message: "FullName is required" }),
-  email: z.string().min(1, { message: "Email is required" }).email({
-    message: "Must be a valid email",
-  }),
-  username: z.string().min(1, { message: "Username is required" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
-});
 
-type ValidationSchema = z.infer<typeof validationSchema>;
-
-export const Form = ({ styles }: IChakraStylesProp) => {
+export const RegisterForm = ({ styles }: IChakraStylesProp) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<RegisterSchema> = (data) => console.log(data);
 
   return (
     <BlockWrapper styles={styles}>

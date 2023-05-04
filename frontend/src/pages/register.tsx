@@ -1,4 +1,4 @@
-import { RegisterPageComponent } from "@/modules/AuthModule/page-components/RegisterPageComponent/RegisterPageComponent";
+import { RegisterPageComponent } from "@/modules/AuthModule";
 import { withAuthLayout } from "@/shared/layouts/AuthLayout/Layout";
 import Head from "next/head";
 
