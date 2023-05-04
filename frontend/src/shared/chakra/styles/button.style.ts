@@ -3,12 +3,12 @@ import { defineStyleConfig } from '@chakra-ui/react';
 export const Button = defineStyleConfig({
   // The styles all button have in common
   baseStyle: {
-    fontWeight: 'bold',
+    fontWeight: 'semiBold',
     bg: 'secondaryButton.main',
     /* br: '8px', */
     color: 'primary',
-    fontSize: 'fontSize.14',
-    py: '16px',
+    
+    py: '8px',
     _hover: {
       bg: 'secondaryButton.hover',
     },
@@ -33,7 +33,9 @@ export const Button = defineStyleConfig({
   variants: {
     base: {},
     blue: {
+      height: 'auto',
       backgroundColor: 'blue.main',
+      borderRadius: '8px',
       color: 'white',
       _hover: {
         bg: 'blue.hover',

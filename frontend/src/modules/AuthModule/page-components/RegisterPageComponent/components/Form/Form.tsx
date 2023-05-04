@@ -1,7 +1,7 @@
 import { BlockWrapper } from "@/modules/AuthModule/components/BlockWrapper";
 import { Input } from "@/shared/ui/Input";
 import React from "react";
-import { Center, Wrap, WrapItem, Text } from "@chakra-ui/react";
+import { Center, Wrap, WrapItem, Text, Button } from "@chakra-ui/react";
 import { Logo } from "@/shared/ui/Logo";
 import { IChakraStylesProp } from "@/shared/types/interfaces/chakra-styles";
 
@@ -10,14 +10,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 const validationSchema = z.object({
-  firstName: z.string().min(1, { message: "Firstname is required" }),
-  lastName: z.string().min(1, { message: "Lastname is required" }),
+  fullName: z.string().min(1, { message: "FullName is required" }),
   email: z.string().min(1, { message: "Email is required" }).email({
     message: "Must be a valid email",
   }),
+  username: z.string().min(1, { message: "Username is required" }),
   password: z
     .string()
-    .min(6, { message: "Password must be atleast 6 characters" }),
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
 type ValidationSchema = z.infer<typeof validationSchema>;
@@ -47,21 +47,40 @@ export const Form = ({ styles }: IChakraStylesProp) => {
       >
         Sign up to see photos and videos from your friends.
       </Text>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Wrap p="1px" my="6px">
           <WrapItem width="100%">
-            <Input />
+            <Input
+              error={errors.email?.message}
+              {...register("email")}
+              label="Email"
+            />
           </WrapItem>
           <WrapItem width="100%">
-            <Input />
+            <Input
+              error={errors.fullName?.message}
+              {...register("fullName")}
+              label="Full Name"
+            />
           </WrapItem>
           <WrapItem width="100%">
-            <Input />
+            <Input
+              error={errors.username?.message}
+              {...register("username")}
+              label="Username"
+            />
           </WrapItem>
           <WrapItem width="100%">
-            <Input />
+            <Input
+              error={errors.password?.message}
+              {...register("password")}
+              label="password"
+            />
           </WrapItem>
         </Wrap>
+        <Button type="submit" variant="blue" width="100%">
+          Sign Up
+        </Button>
       </form>
     </BlockWrapper>
   );

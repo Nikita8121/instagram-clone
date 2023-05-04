@@ -43,15 +43,15 @@ export const theme = extendTheme({
     semiBold: '600',
     regular: '400',
   },
-  fontSize: {
-    12: '12px',
-    14: '14px',
-    16: '16px',
+  fontSizes: {
+    sm: '12px',
+    md: '14px',
+    lg: '16px',
   },
   lineHeights: {
-    fontSize12: '16px',
-    fontSize14: '18px',
-    fontSize16: '20px',
+    fontSizeSm: '16px',
+    fontSizeMd: '18px',
+    fontSizeLg: '20px',
   },
   radii: {
     md: '3px',
@@ -64,17 +64,17 @@ export const theme = extendTheme({
     sm: {
       fontSize: '12',
       fontWeight: "regular",
-      lineHeight: 'fontSize12'
+      lineHeight: 'fontSizeSm'
     },
     md: {
       fontSize: '14',
       fontWeight: "regular",
-      lineHeight: 'fontSize14'
+      lineHeight: 'fontSizeMd'
     },
     lg: {
       fontSize: '16',
       fontWeight: "regular",
-      lineHeight: 'fontSize16'
+      lineHeight: 'fontSizeLg'
     }
   },
 });

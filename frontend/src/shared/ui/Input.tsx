@@ -6,7 +6,13 @@ import {
   Input as ChakraInput,
   StyleProps,
 } from "@chakra-ui/react";
-import React, { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import {
+  DetailedHTMLProps,
+  ForwardedRef,
+  InputHTMLAttributes,
+  forwardRef,
+} from "react";
+import { When } from "react-if";
 
 interface InputProps
   extends Omit<
@@ -14,25 +20,44 @@ interface InputProps
     "style" | "placeholder" | "size"
   > {
   label?: string;
+  error?: string;
   isRequired?: boolean;
   helpMessage?: string;
   styles?: StyleProps;
 }
 
-export const Input = ({
-  isRequired,
-  helpMessage,
-  label = "",
-  styles = {},
-  ...props
-}: InputProps) => {
-  return (
-    <FormControl sx={styles} variant="floating" isRequired={isRequired}>
-      <ChakraInput {...props} placeholder=" " />
-      {/* It is important that the Label comes after the Control due to css selectors */}
-      <FormLabel>{label}</FormLabel>
-      <FormHelperText>{helpMessage}</FormHelperText>
-      <FormErrorMessage>Your First name is invalid</FormErrorMessage>
-    </FormControl>
-  );
-};
+export const Input = forwardRef(
+  (
+    {
+      isRequired,
+      error = "",
+      helpMessage,
+      label = "",
+      styles = {},
+      disabled,
+      readOnly,
+      ...props
+    }: InputProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
+    return (
+      <FormControl
+        sx={styles}
+        variant="floating"
+        isRequired={isRequired}
+        isInvalid={!!error}
+        isDisabled={disabled}
+        isReadOnly={readOnly}
+      >
+        <ChakraInput {...props} placeholder=" " />
+        <FormLabel>{label}</FormLabel>
+        <When condition={helpMessage}>
+          <FormHelperText>{helpMessage}</FormHelperText>
+        </When>
+        <When condition={error}>
+          <FormErrorMessage mt="2px">{error}</FormErrorMessage>
+        </When>
+      </FormControl>
+    );
+  }
+);
