@@ -4,16 +4,16 @@ export const Button = defineStyleConfig({
   // The styles all button have in common
   baseStyle: {
     fontWeight: 'bold',
-    bg: 'secondary.main',
+    bg: 'secondaryButton.main',
     /* br: '8px', */
     color: 'primary',
     fontSize: 'fontSize.14',
     py: '16px',
     _hover: {
-      bg: 'secondary.hover',
+      bg: 'secondaryButton.hover',
     },
     _active: {
-      bg: 'secondary.active',
+      bg: 'secondaryButton.active',
     },
   },
   // Two sizes: sm and md
