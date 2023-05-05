@@ -1,8 +1,8 @@
-import { RegisterPageComponent } from "@/modules/AuthModule";
+import { LoginPageComponent } from "@/modules/AuthModule";
 import { withAuthLayout } from "@/shared/layouts/AuthLayout/Layout";
 import Head from "next/head";
 
-function Register() {
+function SignIn() {
   return (
     <>
       <Head>
@@ -11,9 +11,9 @@ function Register() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <RegisterPageComponent />
+      <LoginPageComponent />
     </>
   );
 }
 
-export default withAuthLayout(Register);
+export default withAuthLayout(SignIn);

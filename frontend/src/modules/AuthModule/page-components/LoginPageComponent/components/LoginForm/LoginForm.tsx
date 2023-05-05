@@ -7,55 +7,43 @@ import { IChakraStylesProp } from "@/shared/types/interfaces/chakra-styles";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema, registerSchema } from "@/modules/AuthModule/zod-schemas/register.schema";
+import {
+  signInSchema,
+  SignInSchema,
+} from "@/modules/AuthModule/zod-schemas/sign-in.schema";
+import { signIn } from "next-auth/react";
+import { Divider } from "@/shared/ui/Divider";
 
-
-export const RegisterForm = ({ styles }: IChakraStylesProp) => {
+export const LoginForm = ({ styles }: IChakraStylesProp) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterSchema>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<SignInSchema>({
+    resolver: zodResolver(signInSchema),
   });
 
-  const onSubmit: SubmitHandler<RegisterSchema> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
+    console.log(data);
+    const response = await signIn("login", {
+      ...data,
+      redirect: false,
+    });
+    console.log(response);
+  };
 
   return (
     <BlockWrapper styles={styles}>
       <Center mt="36px" mb="12px">
         <Logo size="big" />
       </Center>
-      <Text
-        textAlign="center"
-        textStyle="lg"
-        fontWeight="semibold"
-        color="secondary"
-        as="h2"
-      >
-        Sign up to see photos and videos from your friends.
-      </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Wrap p="1px" my="6px">
           <WrapItem width="100%">
             <Input
-              error={errors.email?.message}
-              {...register("email")}
+              error={errors.emailOrUsername?.message}
+              {...register("emailOrUsername")}
               label="Email"
-            />
-          </WrapItem>
-          <WrapItem width="100%">
-            <Input
-              error={errors.fullName?.message}
-              {...register("fullName")}
-              label="Full Name"
-            />
-          </WrapItem>
-          <WrapItem width="100%">
-            <Input
-              error={errors.username?.message}
-              {...register("username")}
-              label="Username"
             />
           </WrapItem>
           <WrapItem width="100%">
@@ -66,10 +54,20 @@ export const RegisterForm = ({ styles }: IChakraStylesProp) => {
             />
           </WrapItem>
         </Wrap>
-        <Button type="submit" variant="blue" width="100%">
-          Sign Up
+        <Button mt="10px" type="submit" variant="blue" width="100%">
+          Log in
         </Button>
       </form>
+      <Divider styles={{ my: "15px" }} text="or" />
+      <Text
+        mb="15px
+      "
+        textAlign="center"
+        textStyle="md"
+        color="secondary"
+      >
+        Forgot password?
+      </Text>
     </BlockWrapper>
   );
 };

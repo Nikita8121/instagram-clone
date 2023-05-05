@@ -1,7 +1,24 @@
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 
 
 const { API_URL} = process.env
+
+const axiosClient = axios.create();
+
+axiosClient.interceptors.request.use(
+  /* (config) => {
+  
+    if (token) {
+      // Configure this as per your backend requirements
+      // eslint-disable-next-line no-param-reassign
+      (config.headers as AxiosHeaders).set("Authorization", `Bearer ${token}`);
+    }
+    return config;
+  }, */
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export const api = {
   get(url: string) {

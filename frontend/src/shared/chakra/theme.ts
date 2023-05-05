@@ -23,6 +23,7 @@ export const theme = extendTheme({
   colors: {
     primary: 'rgb(0,0,0)',
     secondary: 'rgb(115,115,115)',
+    secondaryLight: 'rgb(219,219,219)',
     blue: {
       main: 'rgb(0,149, 249)',
       hover: 'rgb(24,119,242)',

@@ -49,7 +49,7 @@ export const Input = forwardRef(
         isDisabled={disabled}
         isReadOnly={readOnly}
       >
-        <ChakraInput {...props} placeholder=" " />
+        <ChakraInput ref={ref} {...props} placeholder=" " />
         <FormLabel>{label}</FormLabel>
         <When condition={helpMessage}>
           <FormHelperText>{helpMessage}</FormHelperText>
