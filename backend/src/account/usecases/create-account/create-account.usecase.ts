@@ -19,7 +19,7 @@ export class CreateAccount {
     username,
     email,
     password,
-  }: CreateAccountCommand): Promise<Account> {
+  }: CreateAccountCommand): Promise<Omit<Account, 'password'>> {
     if (!this.salt) {
       this.salt = await genSalt(10);
     }
@@ -43,6 +43,6 @@ export class CreateAccount {
         password: passwordHash,
       });
 
-    return;
+    return rest;
   }
 }

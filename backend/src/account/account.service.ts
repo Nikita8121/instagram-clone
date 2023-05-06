@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
-import { isEmail } from 'class-validator';
 
 @Injectable()
 export class AccountService {

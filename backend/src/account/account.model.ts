@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type LinkDocument = Link & Document;
 export type AccountDocument = Account & Document;
 
 @Schema()
@@ -11,7 +12,9 @@ export class Link {
   url: string;
 }
 
-@Schema()
+export const LinkSchema = SchemaFactory.createForClass(Link);
+
+@Schema({ timestamps: true })
 export class Account {
   @Prop({ required: true })
   fullName: string;
@@ -31,7 +34,7 @@ export class Account {
   @Prop()
   description?: string;
 
-  @Prop({ type: [String], default: [] })
+  @Prop({ type: [LinkSchema], default: [] })
   links?: Link[];
 
   @Prop({ type: [String], default: [] })

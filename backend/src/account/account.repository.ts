@@ -9,24 +9,24 @@ export class AccountRepository {
     @InjectModel(Account.name) private accountModel: Model<Account>,
   ) {}
 
-  async create(account: Account): Promise<Account> {
+  async create(account: Account) {
     const createdAccount = new this.accountModel(account);
-    return createdAccount.save();
+    return (await createdAccount.save()).toObject();
   }
 
-  async findAll(): Promise<Account[]> {
+  async findAll() {
     return this.accountModel.find().exec();
   }
 
-  async findById(id: string): Promise<Account> {
+  async findById(id: string) {
     return this.accountModel.findById(id).exec();
   }
 
-  async findByEmail(email: string): Promise<Account> {
+  async findByEmail(email: string) {
     return this.accountModel.findOne({ email }).exec();
   }
 
-  async findByUsername(username: string): Promise<Account> {
+  async findByUsername(username: string) {
     return this.accountModel.findOne({ username }).exec();
   }
 

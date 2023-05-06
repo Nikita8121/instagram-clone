@@ -6,6 +6,8 @@ import { AccountModule } from './account/account.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoConfig } from './shared/configs/mongo.config';
+import { FilesModule } from './files/files.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { getMongoConfig } from './shared/configs/mongo.config';
     MongooseModule.forRootAsync(getMongoConfig()),
     AuthModule,
     AccountModule,
+    FilesModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],
