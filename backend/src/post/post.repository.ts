@@ -1,15 +1,20 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post } from './post.model';
 
 @Injectable()
 export class PostRepository {
-  constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
+  constructor(
+    @InjectModel(Post.name) private readonly postModel: Model<Post>,
+  ) {}
 
-  async create(post: Post) {
-    const createdAccount = new this.postModel(post);
-    return (await createdAccount.save()).toObject();
+  async create(post: Omit<Post, 'account'> & { account: string }) {
+    const createdPost = new this.postModel({
+      ...post,
+      account: new Types.ObjectId(post.account),
+    });
+    return (await createdPost.save()).toObject();
   }
 
   async findAll() {
@@ -18,6 +23,10 @@ export class PostRepository {
 
   async findById(id: string) {
     return this.postModel.findById(id).exec();
+  }
+
+  async addLike(postId: string, account: string) {
+    return this.postModel.findOneAndUpdate();
   }
 
   async delete(id: string): Promise<void> {

@@ -24,7 +24,8 @@ export class Login {
     if (!isPasswordCorrect) throw new ApiException('wrong password');
 
     return {
-      token: (await this.authService.generateUserToken(account.email)).token,
+      token: (await this.authService.generateUserToken(account._id.toString()))
+        .token,
     };
   }
 }

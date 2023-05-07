@@ -35,7 +35,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
 
   private transformResponse(response) {
     if (isArray(response)) {
-      return response.map((item) => this.transformToPlain(item));
+      return response.map((item) => item);
     }
 
     return this.transformToPlain(response);

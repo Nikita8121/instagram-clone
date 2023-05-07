@@ -24,12 +24,10 @@ export const LoginForm = ({ styles }: IChakraStylesProp) => {
   });
 
   const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
-    console.log(data);
     const response = await signIn("login", {
       ...data,
       redirect: false,
     });
-    console.log(response);
   };
 
   return (

@@ -13,7 +13,9 @@ export class Register {
     const newAccount = await this.createAccountUseCase.execute(data);
     return {
       account: newAccount,
-      token: (await this.authService.generateUserToken(data.email)).token,
+      token: (
+        await this.authService.generateUserToken(newAccount._id.toString())
+      ).token,
     };
   }
 }

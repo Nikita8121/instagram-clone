@@ -14,12 +14,7 @@ export class CreateAccount {
     private readonly accountService: AccountService,
   ) {}
 
-  async execute({
-    fullName,
-    username,
-    email,
-    password,
-  }: CreateAccountCommand): Promise<Omit<Account, 'password'>> {
+  async execute({ fullName, username, email, password }: CreateAccountCommand) {
     if (!this.salt) {
       this.salt = await genSalt(10);
     }

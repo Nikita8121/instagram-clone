@@ -17,14 +17,21 @@ export const CommentSchema = SchemaFactory.createForClass(Comment);
 
 @Schema({ timestamps: true })
 export class Post {
-  @Prop({ required: true })
-  userId: string;
+  @Prop({ required: true, ref: 'Account', type: Types.ObjectId })
+  account: Types.ObjectId;
   @Prop({ required: true })
   description: string;
   @Prop({ type: [MediaSchema], required: true })
   content: Media[];
   @Prop({ type: [CommentSchema], required: false, default: [] })
-  comments?: Types.Array<Comment>;
+  comments?: Comment;
+  @Prop({
+    type: [Types.ObjectId],
+    required: false,
+    default: [],
+    ref: 'Account',
+  })
+  likes?: Types.ObjectId[];
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

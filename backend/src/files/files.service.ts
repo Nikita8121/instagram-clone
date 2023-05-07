@@ -5,9 +5,13 @@ import { path } from 'app-root-path';
 import { ensureDir, writeFile } from 'fs-extra';
 import * as sharp from 'sharp';
 import { MFile } from './mfile.class';
+import { v4 as uuidv4 } from 'uuid';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FilesService {
+  constructor(private readonly configService: ConfigService) {}
+
   async uploadFile(
     files: Express.Multer.File[],
   ): Promise<FileElementResponse[]> {
@@ -17,9 +21,10 @@ export class FilesService {
       if (file.mimetype.includes('image')) {
         const convertPromise = this.convertToWebP(file.buffer).then(
           (buffer) => {
+            const uniqueId = uuidv4();
             saveArray.push(
               new MFile({
-                originalname: `${file.originalname.split('.')[0]}.webp`,
+                originalname: `${uniqueId}.webp`,
                 buffer,
               }),
             );
@@ -45,7 +50,9 @@ export class FilesService {
     for (const file of files) {
       await writeFile(`${uploadFolder}/${file.originalname}`, file.buffer);
       res.push({
-        url: `${dateFolder}/${file.originalname}`,
+        url: `${this.configService.get('APP_URL')}/static/${dateFolder}/${
+          file.originalname
+        }`,
         name: file.originalname,
       });
     }

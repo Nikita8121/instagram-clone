@@ -5,7 +5,7 @@ import { MediaDto } from 'src/shared/dto/media.dto';
 
 export class CreatePostCommand extends BaseCommand {
   @IsString()
-  userId: string;
+  account: string;
   @IsString()
   description: string;
 

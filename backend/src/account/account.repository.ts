@@ -6,7 +6,7 @@ import { Account } from './account.model';
 @Injectable()
 export class AccountRepository {
   constructor(
-    @InjectModel(Account.name) private accountModel: Model<Account>,
+    @InjectModel(Account.name) private readonly accountModel: Model<Account>,
   ) {}
 
   async create(account: Account) {
@@ -20,6 +20,10 @@ export class AccountRepository {
 
   async findById(id: string) {
     return this.accountModel.findById(id).exec();
+  }
+
+  async findByEmailAndUsername(email: string, username: string) {
+    return this.accountModel.findOne({ email, username }).exec();
   }
 
   async findByEmail(email: string) {
