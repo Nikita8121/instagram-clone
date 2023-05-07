@@ -26,7 +26,9 @@ export class PostRepository {
   }
 
   async addLike(postId: string, account: string) {
-    return this.postModel.findOneAndUpdate();
+    const post = await this.findById(postId);
+    post.likes.push(new Types.ObjectId(account));
+    return post.save();
   }
 
   async delete(id: string): Promise<void> {
