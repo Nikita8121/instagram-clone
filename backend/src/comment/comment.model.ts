@@ -1,22 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { MediaSchema, Media } from 'src/shared/models/media.model';
 
-export type CommentDocument = Comment & Document;
 export type LikeDocument = Like & Document;
-export type PostDocument = Post & Document;
+export type ReplyDocument = Reply & Document;
+export type CommentDocument = Comment & Document;
 
-@Schema({ timestamps: true, _id: false })
-export class Comment {
-  @Prop({ required: true, ref: 'Account' })
-  account: Types.ObjectId;
-  @Prop({ required: true })
-  text: string;
-}
-
-export const CommentSchema = SchemaFactory.createForClass(Comment);
-
-@Schema({ timestamps: true, _id: false })
+@Schema({ timestamps: false, _id: false })
 export class Like {
   @Prop({ required: true, ref: 'Account' })
   account: Types.ObjectId;
@@ -24,16 +13,12 @@ export class Like {
 
 export const LikeSchema = SchemaFactory.createForClass(Like);
 
-@Schema({ timestamps: true })
-export class Post {
-  @Prop({ required: true, ref: 'Account', type: Types.ObjectId })
-  account: Types.ObjectId;
-  @Prop({ required: true })
-  description: string;
-  @Prop({ type: [MediaSchema], required: true })
-  content: Media[];
-  @Prop({ type: [CommentSchema], required: false, default: [] })
-  comments?: Comment;
+@Schema({ timestamps: true, _id: true })
+export class Reply {
+  @Prop({ required: true, ref: 'Account' })
+  to: Types.ObjectId;
+  @Prop({ required: true, ref: 'Account' })
+  from: Types.ObjectId;
   @Prop({
     type: [LikeSchema],
     required: false,
@@ -43,4 +28,29 @@ export class Post {
   likes?: Like[];
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const ReplySchema = SchemaFactory.createForClass(Reply);
+
+@Schema({ timestamps: true })
+export class Comment {
+  @Prop({ required: true, ref: 'Post' })
+  post: Types.ObjectId;
+  @Prop({ required: true, ref: 'Account' })
+  account: Types.ObjectId;
+  @Prop({ required: true })
+  text: string;
+  @Prop({
+    type: [LikeSchema],
+    required: false,
+    default: [],
+  })
+  likes?: Like[];
+  @Prop({
+    type: [ReplySchema],
+    required: false,
+    default: [],
+    ref: 'Account',
+  })
+  replies?: Reply[];
+}
+
+export const CommentSchema = SchemaFactory.createForClass(Comment);

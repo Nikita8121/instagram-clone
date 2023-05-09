@@ -18,7 +18,7 @@ export const CommentSchema = SchemaFactory.createForClass(Comment);
 
 @Schema({ timestamps: false, _id: false })
 export class Like {
-  @Prop({ required: true, unique: true, ref: 'Account' })
+  @Prop({ required: true, ref: 'Account' })
   account: Types.ObjectId;
 }
 
@@ -38,7 +38,6 @@ export class Post {
     type: [LikeSchema],
     required: false,
     default: [],
-    ref: 'Account',
   })
   likes?: Like[];
 }

@@ -6,7 +6,7 @@ import { CreatePostCommand } from './create-post.command';
 export class CreatePost {
   constructor(private readonly postRepository: PostRepository) {}
   async execute(command: CreatePostCommand) {
-    return this.postRepository.create({
+    return this.postRepository.createPost({
       ...command,
     });
   }

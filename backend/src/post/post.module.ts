@@ -16,5 +16,6 @@ import { RemoveLike } from './usecases/remove-like/remove-like.usecase';
   ],
   controllers: [PostController],
   providers: [PostService, CreatePost, PostRepository, LikePost, RemoveLike],
+  exports: [PostRepository],
 })
 export class PostModule {}

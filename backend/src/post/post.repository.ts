@@ -1,4 +1,4 @@
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post } from './post.model';
@@ -10,18 +10,14 @@ export class PostRepository extends BaseRepository<Post> {
     super(postModel);
   }
 
+  async createPost(post: Omit<Post, 'account'> & { account: string }) {
+    return this.create({
+      ...post,
+      account: this.convertStringToObjectId(post.account),
+    });
+  }
+
   async addLike(postId: string, account: string) {
-    /* const post = await this.findById(postId); */
-    /*     const isLikeExists = post.likes.find(
-      (like) => like.account.toString() === account,
-    ); */
-    /*     if (isLikeExists) {
-      throw new Error(`post already liked`);
-    } */
-    /* post.likes.push({ account: new Types.ObjectId(account) });
-
-    return post.save(); */
-
     return this.updateOne(
       { _id: postId },
       {
@@ -41,5 +37,18 @@ export class PostRepository extends BaseRepository<Post> {
         },
       },
     );
+  }
+
+  async addComment(postId: string) {
+    return this.updateOne(
+      { _id: postId },
+      {
+        $inc: { commentsAmount: 1 },
+      },
+    );
+  }
+
+  async isExists(postId: string) {
+    return !!(await this.findById(postId, '_id'));
   }
 }

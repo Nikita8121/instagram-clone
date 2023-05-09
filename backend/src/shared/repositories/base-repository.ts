@@ -80,7 +80,7 @@ export class BaseRepository<T_DBModel, T_Enforcement = object> {
     return data;
   }
 
-  async create(data: FilterQuery<T_DBModel>) {
+  async create(data: T_DBModel) {
     const newEntity = new this.MongooseModel(data);
     return (await newEntity.save()).toObject();
   }
