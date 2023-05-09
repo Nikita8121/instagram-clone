@@ -10,7 +10,7 @@ export class CommentRepository extends BaseRepository<Comment> {
     super(commentModel);
   }
 
-  createComment(post: string, account: string, text: string) {
+  async createComment(post: string, account: string, text: string) {
     return this.create({
       post: this.convertStringToObjectId(post),
       account: this.convertStringToObjectId(account),

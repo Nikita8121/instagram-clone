@@ -136,6 +136,10 @@ export class BaseRepository<T_DBModel, T_Enforcement = object> {
     };
   }
 
+  async isExists(id: string) {
+    return !!(await this.findById(id, '_id'));
+  }
+
   /* async upsertMany(data: FilterQuery<T_DBModel>[]) {
     const promises = data.map((entry) =>
       this.MongooseModel.findOneAndUpdate(entry, entry, { upsert: true }),

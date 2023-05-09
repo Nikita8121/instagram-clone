@@ -1,11 +1,15 @@
 import { IsString } from 'class-validator';
 import { BaseCommand } from 'src/shared/commands/base.command';
 
-export class AddCommentCommand extends BaseCommand {
+export class CreateReplyCommand extends BaseCommand {
   @IsString()
-  accountId: string;
+  from: string;
+  @IsString()
+  to: string;
   @IsString()
   text: string;
   @IsString()
   postId: string;
+  @IsString()
+  commentId: string;
 }

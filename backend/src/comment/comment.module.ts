@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CommentController } from './comment.controller';
-import { CreateComment } from './usecases/add-comment/add-comment.usecase';
+import { CreateComment } from './usecases/create-comment/create-comment.usecase';
 import { PostModule } from 'src/post/post.module';
 import { CommentRepository } from './comment.repository';
 import { MongooseModule } from '@nestjs/mongoose';

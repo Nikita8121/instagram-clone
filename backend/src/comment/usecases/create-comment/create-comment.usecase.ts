@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CommentRepository } from '../../comment.repository';
-import { AddCommentCommand } from './add-comment.command';
+import { CreateCommentCommand } from './create-comment.command';
 import { PostRepository } from '../../../post/post.repository';
 import { ApiException } from 'src/shared/exceptions/api.exception';
 
@@ -10,7 +10,7 @@ export class CreateComment {
     private readonly postRepository: PostRepository,
     private readonly commentRepository: CommentRepository,
   ) {}
-  async execute(command: AddCommentCommand) {
+  async execute(command: CreateCommentCommand) {
     const isPostExists = await this.postRepository.isExists(command.postId);
 
     if (!isPostExists) {

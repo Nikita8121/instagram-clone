@@ -48,7 +48,4 @@ export class PostRepository extends BaseRepository<Post> {
     );
   }
 
-  async isExists(postId: string) {
-    return !!(await this.findById(postId, '_id'));
-  }
 }

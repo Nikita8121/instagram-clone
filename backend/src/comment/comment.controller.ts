@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AccountId } from 'src/shared/decorators/account-id.decorator';
-import { CreateComment } from './usecases/add-comment/add-comment.usecase';
+import { CreateComment } from './usecases/create-comment/create-comment.usecase';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
