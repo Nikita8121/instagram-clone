@@ -13,10 +13,16 @@ import { FilesService } from '../files/files.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CreatePost } from './usecases/create-post/create-post.usecase';
 import { AccountId } from 'src/shared/decorators/account-id.decorator';
+import { LikePost } from './usecases/like-post/like-post.usecase';
+import { LikePostDto } from './dto/like-post.dto';
+import { RemoveLikeDto } from './dto/remove-like.dto';
+import { RemoveLike } from './usecases/remove-like/remove-like.usecase';
 
 @Controller('post')
 export class PostController {
   constructor(
+    private readonly removeLikeUseCase: RemoveLike,
+    private readonly likePostUseCase: LikePost,
     private readonly createPostUseCase: CreatePost,
     private readonly filesService: FilesService,
   ) {}
@@ -34,6 +40,24 @@ export class PostController {
       ...dto,
       account: accountId,
       content: media.map((el) => ({ url: el.url, alt: '' })),
+    });
+  }
+
+  @Post('like-post')
+  @UseGuards(JwtAuthGuard)
+  async likePost(@AccountId() accountId: string, @Body() dto: LikePostDto) {
+    return this.likePostUseCase.execute({
+      account: accountId,
+      postId: dto.postId,
+    });
+  }
+
+  @Post('remove-like')
+  @UseGuards(JwtAuthGuard)
+  async LikePost(@AccountId() accountId: string, @Body() dto: RemoveLikeDto) {
+    return this.removeLikeUseCase.execute({
+      account: accountId,
+      postId: dto.postId,
     });
   }
 

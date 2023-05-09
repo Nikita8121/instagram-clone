@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PostRepository } from '../../post.repository';
-import { LikePostCommand } from './like-post.command';
+import { RemoveLikeCommand } from './remove-like.command';
 import { ApiException } from 'src/shared/exceptions/api.exception';
 
 @Injectable()
-export class LikePost {
+export class RemoveLike {
   constructor(private readonly postRepository: PostRepository) {}
-
-  async execute(command: LikePostCommand) {
-    const like = await this.postRepository.addLike(
+  async execute(command: RemoveLikeCommand) {
+    const like = await this.postRepository.removeLike(
       command.postId,
       command.account,
     );

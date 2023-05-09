@@ -2,8 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export type LinkDocument = Link & Document;
-export type AccountDocument = Account & Document;
-
+/* export type AccountDocument = Account & Document;
+ */
 @Schema()
 export class Link {
   @Prop({ required: false })

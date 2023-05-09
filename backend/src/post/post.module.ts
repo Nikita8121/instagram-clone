@@ -6,6 +6,8 @@ import { FilesModule } from 'src/files/files.module';
 import { PostService } from './post.service';
 import { CreatePost } from './usecases/create-post/create-post.usecase';
 import { PostRepository } from './post.repository';
+import { LikePost } from './usecases/like-post/like-post.usecase';
+import { RemoveLike } from './usecases/remove-like/remove-like.usecase';
 
 @Module({
   imports: [
@@ -13,6 +15,6 @@ import { PostRepository } from './post.repository';
     FilesModule,
   ],
   controllers: [PostController],
-  providers: [PostService, CreatePost, PostRepository],
+  providers: [PostService, CreatePost, PostRepository, LikePost, RemoveLike],
 })
 export class PostModule {}

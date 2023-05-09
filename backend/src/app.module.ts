@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoConfig } from './shared/configs/mongo.config';
 import { FilesModule } from './files/files.module';
 import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PostModule } from './post/post.module';
     AccountModule,
     FilesModule,
     PostModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

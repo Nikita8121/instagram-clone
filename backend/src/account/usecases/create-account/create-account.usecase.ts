@@ -1,5 +1,4 @@
 import { CreateAccountCommand } from './create-account.command';
-import { Account } from 'src/account/account.model';
 import { genSalt, hash } from 'bcryptjs';
 import { Injectable } from '@nestjs/common';
 import { AccountRepository } from '../../account.repository';

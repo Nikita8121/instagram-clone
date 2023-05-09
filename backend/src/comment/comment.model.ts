@@ -16,9 +16,9 @@ export class Comment {
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
 
-@Schema({ timestamps: false, _id: false })
+@Schema({ timestamps: true, _id: false })
 export class Like {
-  @Prop({ required: true, unique: true, ref: 'Account' })
+  @Prop({ required: true, ref: 'Account' })
   account: Types.ObjectId;
 }
 
@@ -32,8 +32,8 @@ export class Post {
   description: string;
   @Prop({ type: [MediaSchema], required: true })
   content: Media[];
-  @Prop({ type: Number, required: false, default: 0 })
-  commentsAmount?: number;
+  @Prop({ type: [CommentSchema], required: false, default: [] })
+  comments?: Comment;
   @Prop({
     type: [LikeSchema],
     required: false,
