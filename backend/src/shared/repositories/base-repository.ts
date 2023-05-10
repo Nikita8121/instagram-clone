@@ -4,6 +4,7 @@ import {
   ProjectionType,
   FilterQuery,
   UpdateQuery,
+  QueryOptions,
 } from 'mongoose';
 
 export class BaseRepository<T_DBModel, T_Enforcement = object> {
@@ -125,11 +126,16 @@ export class BaseRepository<T_DBModel, T_Enforcement = object> {
   async updateOne(
     query: FilterQuery<T_DBModel>,
     updateBody: UpdateQuery<T_DBModel>,
+    options?: QueryOptions<T_DBModel> | null,
   ): Promise<{
     matched: number;
     modified: number;
   }> {
-    const saved = await this.MongooseModel.updateOne(query, updateBody).exec();
+    const saved = await this.MongooseModel.updateOne(
+      query,
+      updateBody,
+      options,
+    ).exec();
     return {
       matched: saved.matchedCount,
       modified: saved.modifiedCount,

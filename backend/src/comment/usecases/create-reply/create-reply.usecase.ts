@@ -11,6 +11,11 @@ export class CreateReply {
     private readonly commentRepository: CommentRepository,
   ) {}
   async execute(command: CreateReplyCommand) {
+    const isRepliedToYourself = command.from === command.to;
+
+    if (isRepliedToYourself)
+      throw new ApiException('you cannot reply to yourself');
+
     const isPostExists = await this.postRepository.isExists(command.postId);
 
     if (!isPostExists) throw new ApiException("post doesn't exists");
@@ -21,13 +26,10 @@ export class CreateReply {
 
     if (!isCommentExists) throw new ApiException("comment doesn't exists");
 
-    /* const comment = await this.commentRepository.createComment(
-      command.postId,
-      command.accountId,
-      command.text,
-    );
+    const reply = await this.commentRepository.createReply({ ...command });
+
     await this.postRepository.addComment(command.postId);
 
-    return comment; */
+    return reply;
   }
 }

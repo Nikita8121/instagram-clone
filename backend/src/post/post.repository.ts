@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Post } from './post.model';
+import { Like, Post } from './post.model';
 import { BaseRepository } from 'src/shared/repositories/base-repository';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class PostRepository extends BaseRepository<Post> {
       { _id: postId },
       {
         $addToSet: {
-          likes: { account: this.convertStringToObjectId(account) },
+          likes: { account: this.convertStringToObjectId(account) } as Like,
         },
       },
     );
@@ -33,7 +33,7 @@ export class PostRepository extends BaseRepository<Post> {
       { _id: postId },
       {
         $pullAll: {
-          likes: [{ account: this.convertStringToObjectId(account) }],
+          likes: [{ account: this.convertStringToObjectId(account) }] as Like[],
         },
       },
     );
@@ -47,5 +47,4 @@ export class PostRepository extends BaseRepository<Post> {
       },
     );
   }
-
 }

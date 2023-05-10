@@ -19,6 +19,8 @@ export class Reply {
   to: Types.ObjectId;
   @Prop({ required: true, ref: 'Account' })
   from: Types.ObjectId;
+  @Prop({ required: true })
+  text: string;
   @Prop({
     type: [LikeSchema],
     required: false,
