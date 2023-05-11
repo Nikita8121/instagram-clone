@@ -8,6 +8,11 @@ import { Comment, CommentSchema } from './comment.model';
 import { CreateReply } from './usecases/create-reply/create-reply.usecase';
 import { LikeComment } from './usecases/like-comment/like-comment.usecase';
 import { LikeReply } from './usecases/like-reply/like-reply.usecase';
+import { RemoveLike } from './usecases/remove-like-from-comment/remove-like-from-comment.usecase';
+import { RemoveLikeFromReply } from './usecases/remove-like-from-reply/remove-like-from-reply.usecase';
+import { GetComments } from './usecases/get-comments/get-comments.usecase';
+import { DeleteComment } from './usecases/delete-comment/delete-comment.usecase';
+import { DeleteReply } from './usecases/delete-reply/delete-reply.usecase';
 
 @Module({
   imports: [
@@ -21,6 +26,11 @@ import { LikeReply } from './usecases/like-reply/like-reply.usecase';
     CreateReply,
     LikeComment,
     LikeReply,
+    RemoveLike,
+    RemoveLikeFromReply,
+    GetComments,
+    DeleteComment,
+    DeleteReply,
   ],
 })
 export class CommentModule {}

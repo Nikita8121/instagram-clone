@@ -70,4 +70,68 @@ export class CommentRepository extends BaseRepository<Comment> {
       },
     );
   }
+
+  async removeComment(postId: string) {
+    return this.deleteById(postId);
+  }
+
+  async removeReply(commentId: string, replyId: string) {
+    return this.updateOne(
+      { _id: commentId },
+      {
+        $pull: {
+          replies: {
+            _id: this.convertStringToObjectId(replyId),
+          },
+        },
+      },
+    );
+  }
+
+  async removeLike(comment: string, account: string) {
+    return this.updateOne(
+      { _id: comment },
+      {
+        $pullAll: {
+          likes: [{ account: this.convertStringToObjectId(account) }] as Like[],
+        },
+      },
+    );
+  }
+
+  async removeLikeFromReply(comment: string, reply: string, account: string) {
+    return this.updateOne(
+      { _id: comment },
+      {
+        $pull: {
+          'replies.$[outer].likes': [
+            { account: this.convertStringToObjectId(account) },
+          ] as Like[],
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            'outer._id': this.convertStringToObjectId(reply),
+          },
+        ],
+      },
+    );
+  }
+
+  public async getList(post: string, skip = 0, limit = 10) {
+    const totalItemsCount = await this.count({
+      post: this.convertStringToObjectId(post),
+    });
+
+    const items = await this._model
+      .find({ post: this.convertStringToObjectId(post) })
+      .skip(skip)
+      .limit(limit)
+      .populate('account')
+      .populate('replies.to')
+      .populate('replies.from');
+
+    return { totalCount: totalItemsCount, data: items };
+  }
 }

@@ -42,7 +42,10 @@ export class BaseRepository<T_DBModel, T_Enforcement = object> {
   }
 
   async findById(id: string, select?: string) {
-    const data = await this.MongooseModel.findById(id, select).exec();
+    const data = await this.MongooseModel.findById(
+      this.convertStringToObjectId(id),
+      select,
+    ).exec();
     if (!data) return null;
 
     return data;
@@ -58,24 +61,25 @@ export class BaseRepository<T_DBModel, T_Enforcement = object> {
     return data;
   }
 
-  async delete(query: FilterQuery<T_DBModel>): Promise<void> {
-    await this.MongooseModel.deleteOne(query);
+  async delete(query: FilterQuery<T_DBModel>) {
+    return await this.MongooseModel.deleteOne(query);
   }
 
-  async deleteById(id: string): Promise<void> {
-    await this.MongooseModel.findByIdAndDelete(id);
+  async deleteById(id: string) {
+    return await this.MongooseModel.findByIdAndDelete(id);
   }
 
   async find(
     query: FilterQuery<T_DBModel>,
-    select: ProjectionType<T_DBModel> = '',
     options: { limit?: number; sort?: any; skip?: number } = {},
+    select?: ProjectionType<T_DBModel>,
   ) {
     const data = await this.MongooseModel.find(query, select, {
       sort: options.sort || null,
     })
       .skip(options.skip as number)
       .limit(options.limit as number)
+      .populate('account')
       .exec();
 
     return data;

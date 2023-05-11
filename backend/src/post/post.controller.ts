@@ -17,6 +17,9 @@ import { LikePost } from './usecases/like-post/like-post.usecase';
 import { LikePostDto } from './dto/like-post.dto';
 import { RemoveLikeDto } from './dto/remove-like.dto';
 import { RemoveLike } from './usecases/remove-like/remove-like.usecase';
+import { CreatePostCommand } from './usecases/create-post/create-post.command';
+import { LikePostCommand } from './usecases/like-post/like-post.command';
+import { RemoveLikeCommand } from './usecases/remove-like/remove-like.command';
 
 @Controller('post')
 export class PostController {
@@ -36,29 +39,35 @@ export class PostController {
     @Body() dto: CreatePostDto,
   ) {
     const media = await this.filesService.uploadFile(files);
-    return this.createPostUseCase.execute({
-      ...dto,
-      account: accountId,
-      content: media.map((el) => ({ url: el.url, alt: '' })),
-    });
+    return this.createPostUseCase.execute(
+      CreatePostCommand.create({
+        ...dto,
+        account: accountId,
+        content: media.map((el) => ({ url: el.url, alt: '' })),
+      }),
+    );
   }
 
   @Post('like-post')
   @UseGuards(JwtAuthGuard)
   async likePost(@AccountId() accountId: string, @Body() dto: LikePostDto) {
-    return this.likePostUseCase.execute({
-      account: accountId,
-      postId: dto.postId,
-    });
+    return this.likePostUseCase.execute(
+      LikePostCommand.create({
+        account: accountId,
+        postId: dto.postId,
+      }),
+    );
   }
 
   @Post('remove-like')
   @UseGuards(JwtAuthGuard)
   async LikePost(@AccountId() accountId: string, @Body() dto: RemoveLikeDto) {
-    return this.removeLikeUseCase.execute({
-      account: accountId,
-      postId: dto.postId,
-    });
+    return this.removeLikeUseCase.execute(
+      RemoveLikeCommand.create({
+        account: accountId,
+        postId: dto.postId,
+      }),
+    );
   }
 
   /* @Get('get')
