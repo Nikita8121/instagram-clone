@@ -24,7 +24,6 @@ export class CreateReply {
       command.commentId,
     );
 
-    console.log(isCommentExists);
     if (!isCommentExists) throw new ApiException("comment doesn't exists");
 
     const reply = await this.commentRepository.createReply({ ...command });

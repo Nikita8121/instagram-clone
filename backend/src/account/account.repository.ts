@@ -15,7 +15,7 @@ export class AccountRepository extends BaseRepository<Account> {
   }
 
   async findByEmailAndUsername(email: string, username: string) {
-    return this.findOne({ email, username });
+    return this.findOne({ $or: [{ email }, { username }] });
   }
 
   async findByEmail(email: string) {
@@ -24,5 +24,80 @@ export class AccountRepository extends BaseRepository<Account> {
 
   async findByUsername(username: string) {
     return this.findOne({ username });
+  }
+
+  async addFollowing(from: string, to: string, isFollowBack = false) {
+    if (!isFollowBack) {
+      return this.updateOne(
+        { _id: from },
+        {
+          $addToSet: {
+            following: {
+              account: this.convertStringToObjectId(to),
+              isFollowBack,
+            },
+          },
+        },
+      );
+    }
+    return this.updateOne(
+      { _id: from },
+      {
+        $addToSet: {
+          following: {
+            account: this.convertStringToObjectId(to),
+            isFollowBack,
+          },
+        },
+        $set: {
+          'followers.$[outer].isFollowBack': isFollowBack,
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            'outer.account': this.convertStringToObjectId(to),
+          },
+        ],
+      },
+    );
+  }
+
+  async addFollower(from: string, to: string, isFollowBack = false) {
+    if (!isFollowBack) {
+      return this.updateOne(
+        { _id: to },
+        {
+          $addToSet: {
+            followers: {
+              account: this.convertStringToObjectId(from),
+              isFollowBack,
+            },
+          },
+        },
+      );
+    }
+
+    return this.updateOne(
+      { _id: to },
+      {
+        $addToSet: {
+          followers: {
+            account: this.convertStringToObjectId(from),
+            isFollowBack,
+          },
+        },
+        $set: {
+          'following.$[outer].isFollowBack': isFollowBack,
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            'outer.account': this.convertStringToObjectId(from),
+          },
+        ],
+      },
+    );
   }
 }
