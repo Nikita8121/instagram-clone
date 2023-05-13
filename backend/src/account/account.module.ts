@@ -6,12 +6,21 @@ import { Account, AccountSchema } from './account.model';
 import { CreateAccount } from './usecases/create-account/create-account.usecase';
 import { AccountService } from './account.service';
 import { Follow } from './usecases/follow/follow.usecase';
+import { Unfollow } from './usecases/unfollow/unfollow.usecase';
+import { FilesModule } from 'src/files/files.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Account.name, schema: AccountSchema }]),
+    FilesModule,
   ],
-  providers: [CreateAccount, AccountRepository, AccountService, Follow],
+  providers: [
+    CreateAccount,
+    AccountRepository,
+    AccountService,
+    Follow,
+    Unfollow,
+  ],
   controllers: [AccountController],
   exports: [CreateAccount, AccountRepository],
 })

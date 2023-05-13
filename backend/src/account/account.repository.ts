@@ -10,8 +10,15 @@ export class AccountRepository extends BaseRepository<Account> {
     super(accountModel);
   }
 
-  async findAll() {
-    return this.find({});
+  async updateAvatar(accountId: string, url: string) {
+    return this.updateOne(
+      { _id: accountId },
+      {
+        $set: {
+          avatar: url,
+        },
+      },
+    );
   }
 
   async findByEmailAndUsername(email: string, username: string) {
@@ -89,6 +96,78 @@ export class AccountRepository extends BaseRepository<Account> {
         },
         $set: {
           'following.$[outer].isFollowBack': isFollowBack,
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            'outer.account': this.convertStringToObjectId(from),
+          },
+        ],
+      },
+    );
+  }
+
+  async removeFollowing(from: string, to: string, isFollowBack = false) {
+    if (!isFollowBack) {
+      return this.updateOne(
+        { _id: from },
+        {
+          $pull: {
+            following: {
+              account: this.convertStringToObjectId(to),
+            },
+          },
+        },
+      );
+    }
+
+    return this.updateOne(
+      { _id: from },
+      {
+        $pull: {
+          following: {
+            account: this.convertStringToObjectId(to),
+          },
+        },
+        $set: {
+          'followers.$[outer].isFollowBack': false,
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            'outer.account': this.convertStringToObjectId(to),
+          },
+        ],
+      },
+    );
+  }
+
+  async removeFollower(from: string, to: string, isFollowBack = false) {
+    if (!isFollowBack) {
+      return this.updateOne(
+        { _id: to },
+        {
+          $pull: {
+            followers: {
+              account: this.convertStringToObjectId(from),
+            },
+          },
+        },
+      );
+    }
+
+    return this.updateOne(
+      { _id: to },
+      {
+        $pull: {
+          followers: {
+            account: this.convertStringToObjectId(from),
+          },
+        },
+        $set: {
+          'following.$[outer].isFollowBack': false,
         },
       },
       {

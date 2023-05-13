@@ -61,7 +61,7 @@ export class PostController {
 
   @Post('remove-like')
   @UseGuards(JwtAuthGuard)
-  async LikePost(@AccountId() accountId: string, @Body() dto: RemoveLikeDto) {
+  async removeLoke(@AccountId() accountId: string, @Body() dto: RemoveLikeDto) {
     return this.removeLikeUseCase.execute(
       RemoveLikeCommand.create({
         account: accountId,

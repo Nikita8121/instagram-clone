@@ -39,7 +39,7 @@ export class Account {
   @Prop({ required: true })
   password: string;
 
-  @Prop()
+  @Prop({ default: '', type: String })
   avatar?: string;
 
   @Prop()
