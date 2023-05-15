@@ -7,12 +7,21 @@ import { IChakraStylesProp } from "@/shared/types/interfaces/chakra-styles";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  signInSchema,
-  SignInSchema,
-} from "@/modules/AuthModule/zod-schemas/sign-in.schema";
 import { signIn } from "next-auth/react";
 import { Divider } from "@/shared/ui/Divider";
+
+import { z } from "zod";
+
+export const signInSchema = z.object({
+  emailOrUsername: z
+    .string()
+    .min(1, { message: "Username or email  is required" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+});
+
+export type SignInSchema = z.infer<typeof signInSchema>;
 
 export const LoginForm = ({ styles }: IChakraStylesProp) => {
   const {

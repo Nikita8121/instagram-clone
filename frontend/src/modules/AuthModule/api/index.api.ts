@@ -1,12 +1,12 @@
 import { api } from "@/shared/api/api.client"
-import { RegisterSchema } from "../zod-schemas/register.schema"
-import { SignInSchema } from '../zod-schemas/sign-in.schema'
+import { ISignUpRequest, ISignInRequest } from "./interfaces.api"
 
-export const signUp = async (payload: RegisterSchema) => {
+
+export const signUp = async (payload: ISignUpRequest) => {
     return api.post('auth/register', payload)
 } 
 
 
-export const signIn = async (payload: SignInSchema) => {
+export const signIn = async (payload: ISignInRequest) => {
     return api.post('auth/login', payload)
 } 

@@ -14,9 +14,14 @@ export const theme = extendTheme({
     global: {
       'html, body': {
         maxWidth: '100vw',
+        minHeight: '100vh',
         overflowX: 'hidden',
         fontFamily: 'body',
       },
+      '# __next': {
+        minHeight: '100vh',
+      }
+
     },
   },
   breakpoints,
