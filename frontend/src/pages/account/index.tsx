@@ -1,6 +1,15 @@
 import { withMainLayout } from "@/shared/layouts/MainLayout/Layout";
 import Head from "next/head";
 import { AccountPageComponent } from "@/modules/AccountModule/page-components/AccountPageComponent/AccountPageComponent";
+import { api, setJWTToken } from "@/shared/api/api.client";
+import axios, { AxiosError } from "axios";
+import { useEffect } from "react";
+import { GetServerSideProps } from "next";
+import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
+import { setToken } from "@/shared/helpers/setToken";
+import { getAccount } from "@/modules/AccountModule/api/get-account";
+import { QueryClient, dehydrate, useQuery } from "react-query";
 
 function Account() {
   return (
@@ -15,5 +24,27 @@ function Account() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<any> = async ({ req }) => {
+  const queryClient = new QueryClient();
+  await setToken(req);
+
+  try {
+    console.log(
+      await queryClient.prefetchQuery(["account"], getAccount.request)
+    );
+  } catch (e) {
+    if (e instanceof AxiosError) {
+      console.log(e.code);
+    }
+    console.log(e);
+  }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    }, // will be passed to the page component as props
+  };
+};
 
 export default withMainLayout(Account);

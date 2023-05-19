@@ -5,9 +5,8 @@ export const Button = defineStyleConfig({
   baseStyle: {
     fontWeight: 'semiBold',
     bg: 'secondaryButton.main',
-    /* br: '8px', */
+    borderRadius: '8px',
     color: 'primary',
-    
     py: '8px',
     _hover: {
       bg: 'secondaryButton.hover',
@@ -16,22 +15,16 @@ export const Button = defineStyleConfig({
       bg: 'secondaryButton.active',
     },
   },
-  // Two sizes: sm and md
-  /* sizes: {
-      sm: {
-        fontSize: 'sm',
-        px: 4, // <-- px is short for paddingLeft and paddingRight
-        py: 3, // <-- py is short for paddingTop and paddingBottom
-      },
+  sizes: {
       md: {
         fontSize: 'md',
-        px: 6, // <-- these values are tokens from the design system
-        py: 4, // <-- these values are tokens from the design system
       },
-    }, */
+    },
   // Two variants: outline and solid
   variants: {
-    base: {},
+    base: {
+      height: '32px'
+    },
     blue: {
       height: 'auto',
       backgroundColor: 'blue.main',
@@ -44,6 +37,20 @@ export const Button = defineStyleConfig({
         bg: 'blue.active',
       },
     },
+    icon: {
+      height: 'auto',
+      width: 'auto',
+      py: '0',
+      px: '0',
+      backgroundColor: 'none',
+      bg: 'none',
+      _hover: {
+        bg: 'none',
+      },
+      _active: {
+        bg: 'none',
+      },
+    }
   },
   // The default size and variant values
   defaultProps: {

@@ -39,7 +39,7 @@ export default NextAuth({
     },
     async session({ session, token}) {
        if(session.user) {
-        (session as any).accessToken = token.accessToken
+        session.accessToken = token.accessToken as string
       }
       return session;
     },

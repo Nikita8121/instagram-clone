@@ -1,0 +1,1 @@
+type statusType = 'success' | 'fail'

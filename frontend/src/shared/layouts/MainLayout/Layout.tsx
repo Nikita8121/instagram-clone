@@ -8,7 +8,7 @@ const MainLayout = ({ children }: LayoutProps): JSX.Element => {
     <>
       <Flex minHeight="100vh">
         <Menu />
-        <Container p="0" mb="38px" maxWidth="350px">
+        <Container p="30px 20px 0" mb="38px" maxWidth={{ md: "975px" }}>
           {children}
         </Container>
       </Flex>

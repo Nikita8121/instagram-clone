@@ -1,5 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
-import { Button, Form } from './styles';
+import { Button, Form, Tabs } from './styles';
 
 
 const breakpoints = {
@@ -30,6 +30,7 @@ export const theme = extendTheme({
     secondary: 'rgb(115,115,115)',
     secondaryLight: 'rgb(219,219,219)',
     blue: {
+      dark: "rgb(0, 55, 107)",
       main: 'rgb(0,149, 249)',
       hover: 'rgb(24,119,242)',
       active: '#77A7FF',
@@ -64,9 +65,21 @@ export const theme = extendTheme({
   },
   components: {
     Button,
-    Form
+    Form,
+    Tabs
   },
   textStyles: {
+    link: {
+      color: 'blue.dark',
+      fontSize: '14',
+      fontWeight: "semiBold",
+      _hover: {
+        textDecoration:"underline"
+      },
+      _active: {
+        opacity: 0.5
+      }
+    },
     sm: {
       fontSize: '12',
       fontWeight: "regular",
@@ -79,6 +92,11 @@ export const theme = extendTheme({
     },
     lg: {
       fontSize: '16',
+      fontWeight: "regular",
+      lineHeight: 'fontSizeLg'
+    },
+    xl: {
+      fontSize: '20',
       fontWeight: "regular",
       lineHeight: 'fontSizeLg'
     }
